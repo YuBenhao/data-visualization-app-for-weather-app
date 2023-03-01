@@ -1,0 +1,83 @@
+form label span {
+  margin-left: 0.2rem;
+}
+form .btns > .ant-btn:first-child {
+  margin-right: 0.6rem;
+}
+form label abbr[title] {
+  text-decoration: none;
+  vertical-align: sub;
+  color: red;
+}
+
+.searchItems {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+.searchItems > span {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+.searchItems label {
+  flex: 0 0 6rem;
+  text-align: right;
+  margin-right: 0.2rem;
+}
+.btns {
+  text-align: right;
+}
+
+.searchItems > span:nth-child(3) > label {
+  align-self: flex-start;
+  height: 32px;
+  display: flex;
+  align-items: center;
+}
+
+
+@media screen and (min-width: 1280px) {
+    .searchItems > span:nth-child(1){
+      width: 350px;
+    }
+    .location {
+      width: 250px;
+    }
+    .time {
+      width: 360px;
+    }
+    .params {
+      width: 200px;
+    }
+}
+@media screen and (max-width: 1280px) {
+  .searchItems {
+    flex-wrap: wrap;
+  }
+  .searchItems > span {
+    margin-bottom: 1rem;
+    flex: 0 0 50%;
+    display: flex;
+  }
+
+  .location, .time, .params  {
+    flex: 1; 
+  }
+  .btns {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .searchItems > span:nth-child(3) > label {
+    display: initial;
+    position: relative;
+    top: 6px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .searchItems > span {
+    flex: 0 0 100%;
+  }
+}

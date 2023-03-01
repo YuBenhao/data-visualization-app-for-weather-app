@@ -1,0 +1,14 @@
+.emptyWrapper > div{
+  height: 300px;
+  padding-top: 150px;
+}
+.wrapper {
+  margin-top: 0.5rem;
+}
+
+canvas{
+  width: 100% !important;
+  max-width: 1000px;
+  height: auto !important;
+  margin: 0 auto;
+}
