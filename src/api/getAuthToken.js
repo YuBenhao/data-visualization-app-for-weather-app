@@ -1,7 +1,7 @@
 import { LOGIN_BASE_URL } from './API.js';
 
-const USER_NAME = 'private_yu';
-const PASS_WORD = 'IdK4G8z7b4';
+const USER_NAME = 'private_asd';
+const PASS_WORD = 'Y3u0sv0ZDQ';
 
 export default async function getAuthToken() {
   let headers = new Headers();

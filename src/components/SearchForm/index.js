@@ -80,7 +80,7 @@ const SearchForm = ({ token, setDataSource }) => {
             setTimer(false);
             console.log(err);
           });
-      }, 8000);
+      }, 12000);
     } else {
       clearInterval(interval);
     }

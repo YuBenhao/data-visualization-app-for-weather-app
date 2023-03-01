@@ -25,7 +25,7 @@ Chart Library: Chart.js.
 - App supports responsive layout
 - Search form supports reset and search
 - All parameters are required, no one can\'t be empty. If missing some one, it will prompt a warning and change corresponding component border color
-- The app will update the data in real-time by polling requests (every 8s).
+- The app will update the data in real-time by polling requests (every 12s).
 - Location input should follow \<latitude\>,\<longitude\> format following meteomatics API specification
 - Support temperature, humidity and sunshine/moon light data type
 - Optimize data units and date label for Charts
