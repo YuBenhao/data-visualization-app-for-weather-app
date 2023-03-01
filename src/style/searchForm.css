@@ -37,7 +37,9 @@ form label abbr[title] {
   align-items: center;
 }
 
-
+/**
+* responsive search form
+*/
 @media screen and (min-width: 1280px) {
     .searchItems > span:nth-child(1){
       width: 350px;
@@ -76,7 +78,7 @@ form label abbr[title] {
   }
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 930px) {
   .searchItems > span {
     flex: 0 0 100%;
   }

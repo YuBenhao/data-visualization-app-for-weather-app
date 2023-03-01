@@ -54,11 +54,12 @@ const options = {
 
 const ChartComponent = ({ sunshineData, moonData }) => {
   const data = useMemo(() => {
+    // optimize labels to be format 'YY-MM-DD HH:mm'
     return ({
       labels: moonData.length ? moonData[0].coordinates[0]?.dates?.map(i => format(i.date)) : [],
       datasets: [
         {
-          label: 'sunshine duration per hour (h)',
+          label: 'sunshine duration per hour (hour)',
           data: sunshineData.length ? sunshineData[0]?.coordinates[0]?.dates.map(i => i.value) : [],
           borderColor: '#1dd1a1',
           backgroundColor: '#1dd1a1',

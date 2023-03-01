@@ -3,7 +3,7 @@ import { LOGIN_BASE_URL } from './API.js';
 const USER_NAME = 'private_yu';
 const PASS_WORD = 'IdK4G8z7b4';
 
-export default async function getAuth() {
+export default async function getAuthToken() {
   let headers = new Headers();
   headers.set('Authorization', 'Basic ' + btoa(USER_NAME + ":" + PASS_WORD));
   try {

@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+# Getting Started with Weather App
+
+App web url:
+<http://weatherdatavisualization.s3-website.ca-central-1.amazonaws.com/>
+I guess meteomatics has contrained CORS by without responding Access-Control-Allow-Origin, it could be accessed successfully by http://localhost url.
+## The architecture of the application
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+React Component Library: Ant Design.
 
-In the project directory, you can run:
+Time formatting tool: Day.js.
 
-### `npm start`
+Chart Library: Chart.js.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Install and test locally
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Install Yarn package managent tool first
+- Run yarn in the root directory of project to install packages
+- After installing node modules successfully, run yarn start
+- Visit http://localhost:3000
 
-### `npm test`
+**Key Test Points:**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- App supports responsive layout
+- Search form supports reset and search
+- All parameters are required, no one can\'t be empty. If missing some one, it will prompt a warning and change corresponding component border color
+- The app will update the data in real-time by polling requests (every 8s).
+- Location input should follow \<latitude\>,\<longitude\> format following meteomatics API specification
+- Support temperature, humidity and sunshine/moon light data type
+- Optimize data units and date label for Charts
 
-### `npm run build`
+**Notification:** Because registed account is for trial use, start date can\'t be earlier than the day before, otherwise it will respond a error.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Code structure
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **src**: source code for application
+  - **api**
+    - **API** : API base URL
+    - **getAuthToken** : with user_name and password, get access_token as a query parameter for requesting rest APIs
+    - **getLocation** : search locations with \<latitude\>,\<longitude\>
+    - **getWeatherData** : request weather data to display with location, time range, weather parameters
+  - **components**
+    - **ChartsContainer** : a container component with three types visualization objects inside
+      - **subComponents**
+        - **BarComponent**: Stateless Bar chart component to show humidity data
+        - **ChatComponent**: Stateless Multiaxis Line chart component to show sunshine & moon light data
+        - **LineComponent**: Stateless Line chart component to show temperature data
+    - **SearchForm** : search form component for requesting weather data
+  - **style**
+    - **chartsContainer**: css style sheet for responsive ChartsContainer
+    - **searchForm**: css style sheet for responsive SearchForm
+  - **utils**
+    - **time**: time format funtion for specific format time output
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **APP.css**: App component style sheet
+- **APP.js**: a comtainer component combining SearchForm and ChartsContainer components
 
-### `npm run eject`
+- **index.css**: some initial css style
+- **index.js**: react renders App into root element
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **public** : files for public use, such as template file index.htmlfor react, favicon, manifest.json
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **node_modules**: installed packages
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **.eslintrc**: eslint configurations
+- **.gitignore**: git ignoring files configurations
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **craco.config**: override Ant Design theme color

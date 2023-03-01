@@ -5,7 +5,9 @@
 .wrapper {
   margin-top: 0.5rem;
 }
-
+/**
+* responsive chart
+*/
 canvas{
   width: 100% !important;
   max-width: 1000px;

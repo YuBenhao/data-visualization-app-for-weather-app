@@ -1,10 +1,15 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
+
 import { DatePicker, Select, Button, message } from 'antd';
+
 import dayjs from "dayjs";
+
 import getLocation from '../../api/getLocation';
 import getWeatherData from "../../api/getWeatherData";
+
 import '../../style/searchForm.css';
 
+// initial  error states for search form items
 const initialErrorState = {
   location: false,
   timeRange: false,
@@ -12,11 +17,12 @@ const initialErrorState = {
 };
 
 const { RangePicker } = DatePicker;
-
+// some constants
 export const TEMPATURE = 'Temperature';
 export const HUMIDITY = 'Humidty';
-export const SUNSHINE_MOON_LIGHT = 'Sunshine Duration & Moon Light (in percent) ';
+export const SUNSHINE_MOON_LIGHT = 'Sunshine Duration & Moon Light';
 
+// weather parameter options object
 const ParametersOptions = {
   [TEMPATURE]: 't_2m:C,t_20m:C,t_100m:C',
   [HUMIDITY]: 'relative_humidity_2m:p,relative_humidity_20m:p,relative_humidity_200m:p',
@@ -24,12 +30,24 @@ const ParametersOptions = {
 };
 
 const SearchForm = ({ token, setDataSource }) => {
+  // location, time range and weather parameters states
   const [location, setLocation] = useState(undefined);
   const [timeRange, setTimeRange] = useState([]);
   const [params, setParams] = useState([]);
+
+  // error state for search item component
   const [errors, setErrors] = useState(initialErrorState);
+
+  // options for location select component
   const [locations, setLocations] = useState([]);
 
+  // controller for starting or stopping polling requests
+  const [timer, setTimer] = useState(false);
+
+  // cached parameters for polling request use
+  const cachedParams = useRef({});
+
+  // transform to location options
   const locationOptions = useMemo(() => locations.map(i => {
     const geometry = i.geometry;
     return ({
@@ -37,6 +55,8 @@ const SearchForm = ({ token, setDataSource }) => {
       label: i.formatted
     });
   }), [locations]);
+
+  // transform to weather parameters options
   const paramsOptions = useMemo(() => {
     return Object.keys(ParametersOptions)
       .map(i => ({
@@ -45,6 +65,29 @@ const SearchForm = ({ token, setDataSource }) => {
       }));
   }, []);
 
+  // polling weather data
+  useEffect(() => {
+    let interval;
+    if (timer) {
+      interval = setInterval(() => {
+        console.log(123, cachedParams);
+        getWeatherData({
+          token,
+          ...cachedParams.current
+        })
+          .then(data => setDataSource(data.data || []))
+          .catch(err => {
+            setTimer(false);
+            console.log(err);
+          });
+      }, 8000);
+    } else {
+      clearInterval(interval);
+    }
+    return () => clearInterval(interval);
+  }, [timer, token, setDataSource]);
+
+  // reset search form
   const handleReset = () => {
     setLocation(undefined);
     setTimeRange([]);
@@ -52,8 +95,9 @@ const SearchForm = ({ token, setDataSource }) => {
     setErrors(initialErrorState);
   };
 
-  const handleSearch = () => {
 
+  const handleSearch = () => {
+    // only search when all parameters exist
     if (!location || !timeRange.length || !params.length) {
       message.warning({
         content: 'Requied field(s) can\'t be empty',
@@ -66,6 +110,7 @@ const SearchForm = ({ token, setDataSource }) => {
         },
         duration: 6,
       });
+      // set error state for waring
       return setErrors(prev => ({
         ...prev,
         location: !location,
@@ -73,6 +118,7 @@ const SearchForm = ({ token, setDataSource }) => {
         params: !params.length,
       }));
     }
+    // get weather data
     getWeatherData({
       location,
       timeRange,
@@ -80,6 +126,14 @@ const SearchForm = ({ token, setDataSource }) => {
       token
     }).then(data => {
       if (data) {
+        // set cached params when requesting successflly
+        cachedParams.current = {
+          location,
+          timeRange,
+          params,
+        };
+        // start polling
+        setTimer(true);
         setDataSource(data.data || []);
       } else {
         message.warning({
@@ -94,12 +148,17 @@ const SearchForm = ({ token, setDataSource }) => {
           duration: 6,
         });
       }
+    }).catch(err => {
+      // stop polling
+      setTimer(false);
+      console.log(err);
     });
   };
 
   const handleTimeChange = value => setTimeRange(value || []);
   const handleLocationChange = value => setLocation(value);
 
+  // search locations
   const handleLocationSearch = value => {
     getLocation(value, token).then(res => {
       setLocations(res.results || []);
@@ -141,7 +200,7 @@ const SearchForm = ({ token, setDataSource }) => {
             showTime
             onChange={handleTimeChange}
             value={timeRange}
-            format='YYYY-MM-DD HH:mm'
+            format='YY-MM-DD HH:mm'
           />
         </span>
         <span>
