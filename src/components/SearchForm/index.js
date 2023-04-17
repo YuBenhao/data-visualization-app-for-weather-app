@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import getLocation from '../../api/getLocation';
 import getWeatherData from "../../api/getWeatherData";
 
-import '../../style/searchForm.css';
+import './index.css';
 
 // initial  error states for search form items
 const initialErrorState = {
@@ -46,6 +46,7 @@ const SearchForm = ({ token, setDataSource }) => {
 
   // cached parameters for polling request use
   const cachedParams = useRef({});
+  const intervalRef = useRef(null);
 
   // transform to location options
   const locationOptions = useMemo(() => locations.map(i => {
@@ -67,10 +68,8 @@ const SearchForm = ({ token, setDataSource }) => {
 
   // polling weather data
   useEffect(() => {
-    let interval;
     if (timer) {
-      interval = setInterval(() => {
-        console.log(123, cachedParams);
+      intervalRef.current = setInterval(() => {
         getWeatherData({
           token,
           ...cachedParams.current
@@ -82,9 +81,9 @@ const SearchForm = ({ token, setDataSource }) => {
           });
       }, 12000);
     } else {
-      clearInterval(interval);
+      clearInterval(intervalRef.current);
     }
-    return () => clearInterval(interval);
+    return () => clearInterval(intervalRef.current);
   }, [timer, token, setDataSource]);
 
   // reset search form
@@ -95,8 +94,7 @@ const SearchForm = ({ token, setDataSource }) => {
     setErrors(initialErrorState);
   };
 
-
-  const handleSearch = () => {
+  const checkValid = () => {
     // only search when all parameters exist
     if (!location || !timeRange.length || !params.length) {
       message.warning({
@@ -111,13 +109,18 @@ const SearchForm = ({ token, setDataSource }) => {
         duration: 6,
       });
       // set error state for waring
-      return setErrors(prev => ({
+      setErrors(prev => ({
         ...prev,
         location: !location,
         timeRange: !timeRange.length,
         params: !params.length,
       }));
+      return false;
     }
+    return true;
+  };
+  const handleSearch = () => {
+    if (!checkValid()) return;
     // get weather data
     getWeatherData({
       location,

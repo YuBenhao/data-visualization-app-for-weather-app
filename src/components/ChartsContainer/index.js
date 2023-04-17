@@ -1,11 +1,11 @@
 import React from 'react';
 
-import LineComponent from './subComponents/LineComponent';
-import BarComponent from './subComponents/BarComponent';
-import Chart from './subComponents/ChartComponent';
+import LineComponent from './LineComponent';
+import BarComponent from './BarComponent';
+import Chart from './ChartComponent';
 import { Empty } from 'antd';
 
-import '../../style/chartsContainer.css';
+import './index.css';
 
 const ChartsContainer = ({ data }) => {
   const temperatureData = data.filter(i => i.parameter.startsWith('t_'));

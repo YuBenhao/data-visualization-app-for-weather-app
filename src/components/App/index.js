@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-import SearchForm from './components/SearchForm';
-import ChartsContainer from './components/ChartsContainer';
+import SearchForm from '../SearchForm';
+import ChartsContainer from '../ChartsContainer';
 
-import './App.css';
+import './index.css';
 import 'antd/dist/reset.css';
 
-import getAuthToken from './api/getAuthToken';
+import getAuthToken from '../../api/getAuthToken';
 
 const App = () => {
   const [token, setToken] = useState('');

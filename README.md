@@ -1,8 +1,5 @@
 # Getting Started with Weather App
 
-App web url:
-<http://weatherdatavisualization.s3-website.ca-central-1.amazonaws.com/>
-I guess meteomatics has contrained CORS by without responding Access-Control-Allow-Origin, it could be accessed successfully by http://localhost url.
 ## The architecture of the application
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

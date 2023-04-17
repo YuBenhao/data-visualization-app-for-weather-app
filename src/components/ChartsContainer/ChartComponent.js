@@ -9,8 +9,8 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { format } from '../../../utils/time';
-import { SUNSHINE_MOON_LIGHT } from '../../SearchForm';
+import { format } from '../../utils/time';
+import { SUNSHINE_MOON_LIGHT } from '../SearchForm';
 
 ChartJS.register(
   CategoryScale,

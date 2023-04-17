@@ -10,8 +10,8 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { TEMPATURE } from '../../SearchForm';
-import { format } from '../../../utils/time';
+import { TEMPATURE } from '../SearchForm';
+import { format } from '../../utils/time';
 
 ChartJS.register(
   CategoryScale,

@@ -9,8 +9,8 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import { format } from '../../../utils/time';
-import { HUMIDITY } from '../../SearchForm';
+import { format } from '../../utils/time';
+import { HUMIDITY } from '../SearchForm';
 // register chart
 ChartJS.register(
   CategoryScale,
